@@ -1,0 +1,29 @@
+#!/bin/bash
+echo -e "\t******Please input your Test Type*******"
+echo -e "1.ATC(Auto Check) "
+echo -e "2.AFT(Assist for Test)"
+echo -e "3.Return EandE"
+echo -e "4.exit"
+echo -e "Notice:your input must be number eg:1"
+echo "Please input your choice:"
+read choice
+case $choice in
+1)echo "You Will Step Into AutoCheck Option"
+echo -e "\n"
+sh AutoCheck
+;;
+2)echo "You Will Step Into AFT Option"
+echo -e "\n"
+sh FullTest
+;;
+3)echo -e "\n"
+sh EandE
+;;
+4)exit
+;;
+*)echo "Input wrong!!!please input again:"
+echo -e "\n"
+sh TestMenu
+;;
+esac
+

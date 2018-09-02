@@ -1,0 +1,281 @@
+#! /bin/sh
+
+# pre-test for DEV monitor, Only can used in RANDR arhcitecture
+# only for CRT now.
+
+DEV=$1	# Test Device
+log=autocheck.log
+LTETIME=3
+SMLTIME=6
+MIDTIME=9
+LONTIME=18
+
+##############################################################################
+#  Sub Functions
+##############################################################################
+TestInit()
+{
+	export DISPLAY=:0.0
+#	xrandr --verbose
+
+	echo "..................Start Test $DEV .........................."
+ echo "..................Start Test $DEV ..........................">>$log
+#Interrupt  
+	sleep $SMLTIME
+	echo "Turn to : CRT mode - 1024x768, prepare for testing."
+	sleep $LTETIME
+	xrandr --output $DEV --mode 1024x768
+	sleep $LTETIME
+}
+
+TestOver()
+{
+	echo "..................Finish Test $DEV .........................."
+ echo "..................Finish Test $DEV ..........................">>$log
+}
+
+OpenDevice()
+{
+	xrandr --output $DEV --auto
+}
+
+CloseDevice()
+{
+        echo "--------------------------close $DEV-----------------------------"
+echo "xrandr --output $DEV --off">>$log
+	xrandr --output $DEV --off
+}
+
+Interrupt()
+{
+read -p "Please input" -t $SMLTIME test
+if [ -z $test ]
+then
+  echo "no input"
+else
+ kill -stop `pidof sh SingleTest.txt CRT | awk '{ print $NF }'`
+fi
+}
+
+
+CheckDevice()
+{
+     xrandr | grep " connected" | awk '{ print $1 }' > xdevice
+         device=0
+      for display in `cat xdevice`
+        do
+           device=$device$display
+         done
+    case $device in
+0CRT) echo "********Current DEVICE: CRT************" 
+DEV1=CRT
+DEV1mode=CRTmode.log
+#./SingleTest.txt CRT
+#exit
+;;
+0CRTLCD) echo "***********Current DEVICE: CRT + LCD ********* "
+DEV1=CRT
+DEV1mode=CRTmode.log
+DEV2=LCD
+DEV2mode=LCDmode.log
+sleep 3
+;;
+0CRTDVI) DEV1=CRT
+DEV1mode=CRTmode.log
+DEV2=DVI
+DEV2mode=DVImode.log
+;;
+0CRTHDMI) DEV1=CRT
+DEV1mode=CRTmode.log
+DEV2=HDMI
+DEV2mode=HDMImode.log
+;;
+*) echo "error"
+;;
+esac
+}
+
+
+RotateAndReflect()
+{
+	echo "Begin to do rotation! "
+     echo "Begin to do rotation! ">>$log
+	sleep $SMLTIME
+ echo  "xrandr --output $DEV --rotate left"
+echo  "xrandr --output $DEV --rotate left">>$log
+     sleep $LTETIME	
+  xrandr --output $DEV --rotate left
+	sleep $SMLTIME
+     #    Interrupt
+echo  "xrandr --output $DEV --rotate right"
+echo  "xrandr --output $DEV --rotate right">>$log
+     sleep $LTETIME
+     xrandr --output $DEV --rotate right  
+#Interrupt    
+	sleep $SMLTIME      
+ echo  "xrandr --output $DEV --rotate inverted"
+echo  "xrandr --output $DEV --rotate inverted">>$log
+     sleep $LTETIME
+	xrandr --output $DEV --rotate inverted
+#Interrupt 
+ 	sleep $SMLTIME
+ echo  "xrandr --output $DEV --rotate normal"
+echo  "xrandr --output $DEV --rotate normal">>$log
+     sleep $LTETIME
+	xrandr --output $DEV --rotate normal
+#Interrupt 
+        sleep $SMLTIME
+echo "Begin to do reflection! "
+echo "Begin to do reflection! ">>$log
+	sleep $SMLTIME
+echo "xrandr --output $DEV --reflect x"
+echo "xrandr --output $DEV --reflect x">>$log
+       sleep $LTETIME
+	xrandr --output $DEV --reflect x
+#Interrupt 
+	sleep $SMLTIME
+echo "xrandr --output $DEV --reflect y"
+echo "xrandr --output $DEV --reflect y">>$log
+       sleep $LTETIME
+	xrandr --output $DEV --reflect y
+#Interrupt 
+	sleep $SMLTIME
+echo "xrandr --output $DEV --reflect xy"
+echo "xrandr --output $DEV --reflect xy">>$log
+       sleep $LTETIME
+	xrandr --output $DEV --reflect xy
+#Interrupt 
+	sleep $SMLTIME
+echo "xrandr --output $DEV --reflect normal"
+echo "xrandr --output $DEV --reflect normal">>$log
+       sleep $LTETIME
+	xrandr --output $DEV --reflect normal
+#Interrupt 
+ 	sleep $SMLTIME
+}
+
+Scale()
+{
+       echo "Begin to do scale! "
+echo "Begin to do scale! ">>$log
+       sleep $SMLTIME
+echo " xrandr --output $DEV --scale 0.8x0.8"
+echo " xrandr --output $DEV --scale 0.8x0.8">>$log
+      sleep $LTETIME 
+      xrandr --output $DEV --scale 0.8x0.8
+#Interrupt 
+         sleep $SMLTIME
+echo " xrandr --output $DEV --scale 1.2x1.2"
+echo " xrandr --output $DEV --scale 1.2x1.2">>$log
+      sleep $LTETIME
+       xrandr --output $DEV --scale 1.2x1.2
+#Interrupt 
+      sleep $SMLTIME
+echo " xrandr --output $DEV --scale 1x1"
+echo " xrandr --output $DEV --scale 1x1">>$log
+      sleep $LTETIME
+       xrandr --output $DEV --scale 1x1
+sleep $SMLTIME
+}
+
+CRTAutoTestFunction()
+{
+	echo "Turn to $DEV-- $MODE, "
+        echo "Turn to $DEV-- $MODE, ">>$log
+	sleep $SMLTIME
+    echo " xrandr --output $DEV --mode $MODE">>$log
+	xrandr --output $DEV --mode $MODE
+	RotateAndReflect
+	Scale
+}
+
+
+TwoDeviceMode()
+{
+  xrandr | awk '{ print $1 }'  > modelist.log
+  if [ -f CRTmode.log ]
+     then
+   rm CRTmode.log
+   fi
+  if [ -f LCDmode.log ]
+     then
+   rm LCDmode.log
+   fi
+  if [ -f DVImode.log ]
+     then
+   rm DVImode.log
+   fi
+  if [ -f HDMImode.log ]
+     then
+   rm HDMImode.log
+ fi
+for mode in `cat modelist.log`
+   do
+case $mode in
+CRT) list=CRTmode.log
+;;
+LCD) list=LCDmode.log
+;;
+DVI) list=DVImode.log
+;;
+HDMI) list=HDMImode.log
+;;
+*) #echo "error"
+;;
+esac
+  echo $mode >> $list
+done
+}
+
+
+
+CRTDynamicTest()
+{
+	
+	echo ">>>>>>>>>>>>>Start CRT Test after $MIDTIME seconds!!! <<<<<<<<<<<<<<"
+	sleep $MIDTIME 
+#	OpenDevice
+#	sleep $MIDTIME 
+		
+#	MODE=640x480
+#	CRTAutoTestFunction
+
+#	MODE=720x480
+#	CRTAutoTestFunction
+
+#	MODE=800x600
+#	CRTAutoTestFunction
+
+#	MODE=1024x768
+#	CRTAutoTestFunction
+
+
+#xrandr | awk '{ print $1 }' | grep x > modelist.log
+for mode in `cat $DEV1mode | grep x`
+   do
+ #  echo $mode
+ MODE=$mode
+CRTAutoTestFunction
+  sleep 3
+done
+
+	CloseDevice
+        sleep $MIDTIME
+        OpenDevice
+
+}
+
+
+
+
+	
+
+
+##########################################################################
+##  Main script
+##########################################################################
+CheckDevice
+TestInit
+TwoDeviceMode
+CRTDynamicTest
+TestOver

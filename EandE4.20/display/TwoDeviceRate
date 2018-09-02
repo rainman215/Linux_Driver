@@ -1,0 +1,58 @@
+#!/bin/sh
+i=-1
+xrandr | grep "\." | awk '{ print $2 " "$3" " $4" " $5" " $6 }'>ratelist.log
+xrandr | awk '{ print $1 }'  > modelist.log
+  if [ -f CRTmode.log ] 
+     then
+   rm CRTmode.log
+   fi
+  if [ -f LCDmode.log ]
+     then
+   rm LCDmode.log
+   fi
+  if [ -f CRTrate.log ]
+     then
+   rm CRTrate.log
+   fi
+  if [ -f LCDrate.log ]
+     then
+   rm LCDrate.log
+   fi
+for mode in `cat modelist.log`
+   do 
+case $mode in
+CRT) list=CRTmode.log  
+     rate=CRTrate.log
+echo $mode
+echo $list
+echo $rate
+sleep 2
+;;
+LCD) list=LCDmode.log  
+     rate=LCDrate.log
+;;
+DVI) list=DVImode.log  
+     rate=DVIrate.log
+;;
+HDMI) list=HDMImode.log 
+      rate=HDMIrate.log
+;;
+*) #echo "error"
+;;
+esac
+#i=` expr $i + 1 ` 
+ echo $mode >> $list
+#echo $i
+ #sleep 2
+ # echo "$ratedir"
+    if [ $i -ge 1 ]
+    then
+   echo `head -n $i ratelist.log | tail -1`  >> $rate
+    fi
+#   echo `cat temp.log`
+i=` expr $i + 1 `
+#    echo $rate
+#   `cat temp.log` >> $rate
+#      echo `cat $rate`
+#       sleep 2
+done

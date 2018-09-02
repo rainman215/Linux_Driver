@@ -1,0 +1,51 @@
+#for((i=1;i<=7;i++))
+#do
+#echo $i "*********"
+#sleep 2
+ls /home/checklist_video > filelist.log
+for file in `cat filelist.log`
+   do
+     if [ -z $file ]
+then
+    echo "novideo"
+else
+     echo $file
+case $file in
+defalut) echo "defalut"
+;;
+h.264) format=ffh264vdpau
+;;
+mpeg4) format=ffodivxvdpau
+;;
+mpeg2) format=ffmpeg12vdpau
+;;
+VC1) format=ffvc1vdpau
+;;
+wmv) format=ffwmv3vdpau
+;;
+*) echo "error"
+;;
+esac
+    ls /home/checklist_video/$file > videolist.log
+  for video in `cat videolist.log`
+    do
+      if [ -z $video ]
+    then
+      echo "novideo"
+    else
+      echo $video
+      mplayer -vo vdpau -vc $format  /home/checklist_video/$file/$video
+   pidof mplayer
+   valu=`echo $?`
+ while [ $valu -eq 0 ]
+ do
+   pidof mplayer
+   valu=`echo $?`
+   echo $valu
+done
+   sleep 3
+   fi
+   done
+ fi
+done
+#done

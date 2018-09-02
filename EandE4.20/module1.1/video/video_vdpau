@@ -1,0 +1,73 @@
+#!/bin/bash
+#for((i=1;i<=7;i++))
+#do
+#echo $i "*********"
+#sleep 2
+export DISPLAY=:0.0
+if [ -f playlist.vdpau ]
+   then
+    rm playlist.vdpau
+fi
+if [ -f video_playlog.vdpau ]
+   then
+    rm video_playlog.vdpau
+fi
+echo "Please input your video dir:"
+read dir
+ls $dir > filelist.vdpau
+for file in `cat filelist.vdpau`
+   do
+     if [ -z $file ]
+then
+    echo "novideo"
+else
+     echo $file
+case $file in
+defalut) echo "defalut"
+;;
+h.264) format=ffh264vdpau
+;;
+mpeg4) format=ffodivxvdpau
+;;
+mpeg2) format=ffmpeg12vdpau
+;;
+VC1) format=ffvc1vdpau
+;;
+wmv) format=ffwmv3vdpau
+;;
+*) echo "error"
+;;
+esac
+    ls  $dir/$file > videolist.vdpau
+  for video in `cat videolist.vdpau`
+    do
+      if [ -z $video ]
+    then
+      echo "novideo"
+    else
+      echo "**********play $video after 4 seconds***********"
+      echo "**********$video**********" >> playlist.vdpau
+      echo "**********$vdieo**********" >>video_playlog.vdpau
+             sleep 4
+       mplayer -vo vdpau -vc $format  $dir/$file/$video 2>templog2&
+              cat templog2 | grep "no frame"
+ #           if [ `echo $?` -eq 0 ]
+ #                then
+ #    mplayer -vo vdpau -vc $format  $dir/$file/$video -fps 25
+#            fi
+   pidof mplayer
+   valu=`echo $?`
+#    sleep 5
+#   kill -9 $valu
+while [ $valu -eq 0 ]
+ do
+   pidof mplayer>1.log
+   valu=`echo $?`
+#   echo $valu
+done
+   sleep 3
+   fi
+   done
+ fi
+done
+#done

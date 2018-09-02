@@ -1,0 +1,312 @@
+#!/bin/bash
+LTETIME=3
+SMLTIME=5
+log=autocheck.log
+##############################################################################
+#  Sub Functions
+##############################################################################
+if [ -f $log ]
+then
+  rm $log
+fi
+
+Init()
+{
+
+if [ -f CRTmode.log ]
+     then
+   rm CRTmode.log
+   fi
+  if [ -f LCDmode.log ]
+     then
+   rm LCDmode.log
+   fi
+  if [ -f CRTrate.log ]
+     then
+   rm CRTrate.log
+   fi
+  if [ -f LCDrate.log ]
+     then
+   rm LCDrate.log
+   fi
+  if [ -f DVImode.log ]
+   then
+   rm DVImode.log
+fi
+  if [ -f HDMImode.log ]
+     then
+   rm HDMImode.log
+   fi
+  if [ -f DVIrate.log ]
+     then
+   rm DVIrate.log
+   fi
+  if [ -f HDMIrate.log ]
+     then
+   rm HDMIrate.log
+   fi
+}
+
+ratecollect()
+{
+ i=-1
+ xrandr | grep "\." | awk '{ print $2 " "$3" " $4" " $5" " $6 }'>ratelist.log
+ xrandr | awk '{ print $1 }'  > modelist.log
+Init
+for mode in `cat modelist.log`
+  do
+   case $mode in
+CRT) list=CRTmode.log
+     rate=CRTrate.log
+;;
+LCD) list=LCDmode.log
+     rate=LCDrate.log
+;;
+DVI) list=DVImode.log
+     rate=DVIrate.log
+;;
+HDMI) list=HDMImode.log
+      rate=HDMIrate.log
+;;
+*) #echo "error"
+;;
+esac
+ echo $mode >> $list
+   if [ $i -ge 1 ]
+    then
+   echo `head -n $i ratelist.log | tail -1`  >> $rate
+   fi
+ i=` expr $i + 1 `
+done
+}
+
+rundisplay()
+{
+#  echo "Please input your Test Device:"
+   device=CRT
+    case $device in
+CRT) list1=CRTmode.log
+     rate1=CRTrate.log
+;;
+LCD) list1=LCDmode.log
+     rate1=LCDrate.log
+;;
+DVI) list1=DVImode.log
+     rate1=DVIrate.log
+;;
+HDMI) list1=HDMImode.log
+      rate1=HDMIrate.log
+;;
+*)echo "error input" 
+;;
+esac
+i=0
+for mode in `cat $list1 | grep x`
+ do
+i=` expr $i + 1 `
+  head -n $i  $rate1 | tail -1 > ratelist.temp
+ for rate in `cat ratelist.temp`
+  do
+   if [ $rate != + ]
+     then
+  echo "***Current Mode is $mode and Rate is $rate***"
+       sleep 2
+     xrandr --output $device --mode $mode --rate $rate 2>ratemistake.log
+echo "xrandr --output $device --mode $mode --rate $rate">>$log
+echo -e "\n"
+#  echo $rate
+   sleep 5
+    fi
+ done
+done
+}
+
+Sn()
+{
+ echo "Please input your test times:"
+read time
+time=$time
+i=0
+while [ $i -lt $time ];
+do
+SECS=`date '+%s' -d '+2 min UTC'`
+echo $SECS
+echo 0 > /sys/class/rtc/rtc0/wakealarm
+echo $SECS > /sys/class/rtc/rtc0/wakealarm
+cat /proc/driver/rtc
+
+sleep 2
+echo $sn > /sys/power/state
+date
+i=`expr $i \+ 1`
+echo $i
+done 
+}
+
+loadcheck()
+{
+echo "******Start checking drm number after $LTETIME seconds******"
+   sleep $LTETIME
+ lsmod | grep "drm "
+   sleep $LTETIME
+ drmNum=`lsmod | grep "drm "| awk '{ print $3  }'`
+  echo "the load drm number is $drmNum"
+  if [ $drmNum -lt 3 ]
+     then
+     sleep $LTETIME
+    echo "load fault!!!"
+     exit
+  else 
+    sleep $LTETIME
+    echo "load success!!!"
+          sleep 3
+  fi
+echo -e "\n******Start checking GFX file******"
+   sleep $LTETIME
+if [ -f /usr/lib/xorg/modules/drivers/via_drv.so ]
+  then
+    echo  "via_drv.so is existence"
+  else
+    echo  "via_drv.so is not existence"
+    echo  "AutoCheck will exit after $LTETIME seconds!!!"
+  sleep $LTETIME
+    exit 
+ fi
+sleep $LTETIME
+if [ -f /usr/lib/via_drv.so ]
+   then 
+     echo "via_drv.so is in /usr/lib"
+   else
+    echo "via_drv.so is not in /usr/lib"
+   fi
+ sleep $LTETIME
+ echo -e "\n******Next,Display will be excuted after 3 second******"
+ sleep $LTETIME
+}
+
+
+
+Display()
+{ 
+  echo "******Start Display Test******">>$log
+#  sh TwoDevicedisplay  
+ratecollect
+rundisplay
+Init
+rm modelist.log
+rm ratelist.temp
+rm ratelist.log
+  echo  "******Finish Display Test For $device******"
+  echo  "******Finish Display Test For $device******">>$log
+xrandr --output CRT --mode 1280x1024
+  sleep $LTETIME
+}
+
+
+
+Function()
+{
+  echo -e "\nStart 3D Test(glxgears) after $LTETIME seconds"
+  glxgears & 
+   sleep 2
+   if [ -z `pidof glxgears` ]
+     then  
+       echo "Can't run Glxgears!!!Please check your glxgears installtion."
+     else
+       echo "the glxgears will run ten seconds"
+      sleep 10
+      kill -9 `pidof glxgears`
+   fi
+echo -e "\n******Next,2D and 3D Function Test will be excuted after $LTETIME seconds******"
+  sh ./SingleTest.txt CRT
+echo -e "\n******Next,Video Test will be excuted after $LTETIME seconds******"
+sleep $LTETIME
+}
+
+
+Video()
+{
+echo "Start playing video with XV after $LTETIME seconds"
+echo "------Video Test in XV------">>$log
+  sleep $LTETIME
+  sh video/video_xv.auto
+echo "Start playing video with vmf after $LTETIME seconds"
+echo "------Video Test in vmf------">>$log
+  sleep $LTETIME
+  sh video/video_vmf.auto
+echo "Start playing video with vdpau after $LTETIME seconds"
+echo "------Video Test in vdpau------">>$log
+  sleep $LTETIME
+  sh video/video_vdpau.auto
+}
+
+Utility()
+{
+echo -e "\n Start running Utility after 3 seconds"
+echo "******Utility Test******">>$log
+sleep 3
+VIADisplayUtility &
+sleep 2
+if [ -z `pidof VIADisplayUtility` ]
+  then
+    echo "Utility can't run!!!"
+  else
+    echo "----close Utility after 10 seconds----"
+    sleep 10
+    kill -9 `pidof VIADisplayUtility`
+fi
+}
+
+Acpi()
+{
+  echo "******Test Menu for ACPI******"
+echo "1.S1"
+echo "2.S3"
+echo "3.S4"
+echo "Please input your choice:"
+ read opt
+ case $opt in
+  1)sn=standby
+    Sn
+;;
+  2)sn=mem
+   Sn
+;;
+  3)sn=disk
+   Sn
+;;
+  *)echo "Input wrong!!!Please input again:"
+    Acpi;;
+esac
+}
+
+Main()
+{
+ echo -e "\t\t******Auto Check Menu******"
+ echo "1.ACPI"
+ echo "2.Other Funcion"
+ echo "3.TestMenu"
+ echo "4.Exit"
+ echo "Notice:your input must be number eg:1"
+ echo "Please input your choice:"
+ read choice
+ case $choice in
+1)Acpi;;
+2)
+loadcheck
+Display
+Function
+Video
+Utility
+echo "------Finish Autocheck Test------">>$log
+;;
+3)sh TestMenu;;
+4)exit;;
+esac
+}
+
+
+##########################################################################
+##  Main script
+##########################################################################
+Main

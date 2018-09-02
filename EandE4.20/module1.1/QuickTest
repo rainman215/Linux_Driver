@@ -1,0 +1,145 @@
+#!/bin/bash
+LTETIME=3
+SMLTIME=6
+MIDTIME=9
+LONTIME=18
+
+##############################################################################
+#  Sub Functions
+##############################################################################
+
+SingleTest()
+{
+ echo -e "\t******SingleDevice Test******"
+ echo -e "1.check load file"
+ echo -e "2.Single Device Display"
+ echo -e "3.Single Device Function Test"
+ echo -e "4.return Quick Test Menu"
+ echo -e "5.exit" 
+ echo -e "Notice:your input must be number eg:1"
+ echo -e "Please input your choice:"
+     read choice2 
+        case $choice2 in
+      1)echo "you will check load file after  $LTETIME seconds"
+          sleep $LTETIME
+              sh checkfile;;
+      2)echo "you will run Display Test after $LTETIME seconds"
+          sleep $LTETIME
+           sh TwoDevicedisplay;;
+      3)echo "you will run Single Device Function Test after $LTETIME seconds"
+             sleep $LTETIME
+        echo "Please input Test Device:"
+             read device
+           sh ./SingleTest.txt $device;;
+      4)echo "you return Quick Test Menu now"
+        QuickTestMenu;;
+      5)echo "you exit Test now"
+        exit;;
+      *)echo "your input is wrong,please input again:"
+          SingleTest;;
+       esac
+}
+
+TwoDeviceTest()
+{
+  echo -e "\t******TwoDevice Test******"
+  echo "1.Clone Function Test"
+  echo "2.Extend Function Test"
+  echo "3.return Quick Test Menu"
+  echo "4.exit" 
+  echo "Notice:your input must be number eg:1"
+  echo "Please input your choice:"
+     read choice3 
+       case $choice3 in
+      1)echo "Do you want to test Function and video together?(y/n)"
+           read choice4
+            case $choice4 in
+        y)echo "you will run Two Device Function Test on CLone after $LTETIME seconds"
+                 sleep $LTETIME
+           sh ./quicktest/TwoDeviceTest.clone_video;;
+        n)echo "you will run Two Device Function Test on Cloneafter $LTETIME seconds"
+                 sleep $LTETIME
+           sh ./quicktest/TwoDeviceTest.clone;;
+        *)echo "your input is wrong,please input again:"
+            TwoDeviceTest;;  
+             esac
+         ;;
+     2)echo "Do you want to test Function and video together?(y/n)"
+           read choice4
+            case $choice4 in
+        y)echo "you will run Two Device Function Test on Extend after $LTETIME seconds"
+                 sleep $LTETIME
+           sh ./quicktest/TwoDeviceTest.extend_video;;
+        n)echo "you will run Two Device Function Test on Extend after $LTETIME seconds"
+                 sleep $LTETIME
+           sh ./quicktest/TwoDeviceTest.extend;;
+        *)echo "your input is wrong,please input again:"
+            TwoDeviceTest;;
+             esac
+         ;;
+      3)echo "Return Quick Test Menu now"
+        QuickTestMenu;;
+      4)echo "you exit Test now"
+        exit;;
+      *)echo "your input is wrong,please input again:"
+          TwoDeviceTest;;
+       esac      
+}
+
+
+
+QuickTestMenu()
+{
+echo -e "\t******Please input your choice:******"
+echo -e "1.S4(ACPI)"
+echo -e "2.SingleTest"
+echo -e "3.TwoDeviceTest"
+echo -e "4.VideoTest"
+echo -e "5.TestMenu"
+echo -e "6.EandE"
+echo -e "7.exit"
+echo -e "Notice:your input must be number eg:1"
+echo -e "Please input your choice:"
+ read choice
+      case $choice in
+    1)echo "you will into S4 after $LTETIME seconds"
+         sleep $LETTIME
+           sh suspend;;
+    2)SingleTest;;
+    3)TwoDeviceTest;;
+    4)echo "which path do you want to play?"
+       echo "1.xv 2.vmf 3.vdpau"
+       echo "Please input your choice:"
+        read opt
+        case $opt in
+      1)echo "you will play video with xv"
+           sh video/video_xv;;
+      2)echo "you will play video with vmf"      
+           sh video/video_vmf.bak;;
+      3)echo "you will play video with vdpau"
+           sh video/video_vdpau;;
+        esac
+      ;;                       
+    5)echo "you will return main menu"
+      sh TestMenu
+      ;;
+    6)echo "you will return init"
+      sh EandE
+    ;;
+    7)exit
+    ;;
+    *)echo "your input is wrong,please input again:"
+    QuickTestMenu
+    ;;
+    esac
+}
+
+
+
+
+##########################################################################
+##  Main script
+##########################################################################
+
+
+QuickTestMenu

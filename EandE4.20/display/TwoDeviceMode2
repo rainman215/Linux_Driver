@@ -1,0 +1,56 @@
+xrandr | awk '{ print $1 }'  > modelist.log
+   if [ -f CRTmode.log ] 
+     then
+   rm CRTmode.log
+   fi
+   if [ -f LCDmode.log ]
+     then
+   rm LCDmode.log
+   fi
+for mode in `cat modelist.log`
+   do 
+case $mode in
+CRT) list=CRTmode.log  #rm $list -fr #echo "CRT" #/home/linuxtest/CRT.txt CRT
+;;
+LCD) list=LCDmode.log  #rm $list -fr  #echo "CRTLCD"
+;;
+DVI) list=DVImode.log  #rm $list -fr #echo "CRTDVI"
+;;
+HDMI) list=HDMImode.log #rm $list -fr #echo "CRTHDMI"
+;;
+*) #echo "error"
+;;
+esac
+ if [ -z $mode ]
+then
+    echo "nomode"
+else
+ #  echo $list
+  echo $mode >> $list
+  # sleep 3
+ fi 
+done
+
+##############below is some issue#################
+i=0
+xrandr | grep "\." | awk '{ print $2 " "$3" " $4" " $5" " $6 }'>ratelist.log
+#xrandr | awk '{ print $b }' | grep x > modelist.log
+for mode in `cat CRTmode.log | grep x`
+ do
+i=` expr $i + 1 `
+  head -n $i CRTrate.log | tail -1 > ratelist.temp
+ for rate in `cat ratelist.temp`
+  do
+   if [ $rate != + ]
+     then
+  echo "***Current Mode is $mode and Rate is $rate***"
+      xrandr --output CRT --mode $mode --rate $rate 2>ratemistake.log
+       sleep 2
+ #    value=$?
+ # echo $mode
+  echo $rate
+#  sleep 3
+# i=` expr $i + 1 `
+  fi
+ done
+done                      

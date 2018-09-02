@@ -1,0 +1,39 @@
+#!/bin/bash
+#
+# Copyright (C) 2009 Intel Corporation
+# Shuang He <shuang.he@intel.com>
+#   
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version
+# 2 as published by the Free Software Foundation.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+# 02110-1301, USA.
+#
+time=$1 #the times for suspend/resume cycle
+i=0
+while [ $i -lt $time ];
+do
+	date
+	sleep 5
+#echo reboot > /sys/power/disk
+#echo disk > /sys/power/state
+#	echo 'echo +0000-00-00 00:00:15 > /sys/class/rtc/rtc0/wakealarm'
+#	echo +0000-00-00 00:00:15 > /sys/class/rtc/rtc0/wakealarm
+#	to change to /sys/class/rtc/rtcN/wakeup in future kernel
+#	echo $i
+#	echo 'echo mem > /sys/power/state	#S3'
+#	echo mem > /sys/power/state	#S3
+#	echo disk > /sys/power/state	#S4
+
+#	date
+	i=` expr $i + 1 `
+done
+echo "suspend_resume end"

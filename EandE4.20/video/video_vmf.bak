@@ -1,0 +1,61 @@
+export DISPLAY=:0.0
+dir=/mnt/home/video
+rm playlist
+rm video_playlog
+ls $dir > filelist.log
+for file in `cat filelist.log`
+   do
+     if [ -z $file ]
+then
+    echo "novideo"
+else
+     echo $file
+     echo $file >> playlist
+#case $file in
+#defalut) echo "defalut"
+#;;
+#h.264) format=ffh264vdpau
+#;;
+#mpeg4) format=ffodivxvdpau
+#;;
+#mpeg2) format=ffmpeg12vdpau
+#;;
+#VC1) format=ffvc1vdpau
+#;;
+#wmv) format=ffwmv3vdpau
+#;;
+#*) echo "error"
+#;;
+#esac
+    ls $dir/$file > videolist.log
+  for video in `cat videolist.log`
+    do
+      if [ -z $video ]
+    then
+      echo "novideo"
+    else
+      echo *********play $video after 4 seconds**********
+            echo $video >> playlist
+            echo *************$video************ >>video_playlog
+                  sleep 4
+      mplayer-vmf -vo vmf $dir/$file/$video 2>templog
+       cat templog >> video_playlog
+           cat templog |grep "No stream"
+        if [ `echo $?` -eq 0 ]
+           then
+          mplayer-vmf -vo vmf $dir/$file/$video -fps 25
+        fi
+   pidof mplayer-vmf
+   valu=`echo $?`
+ while [ $valu -eq 0 ]
+ do
+   pidof mplayer-vmf
+   valu=`echo $?`
+   echo $valu
+done
+   sleep 3
+   fi
+   done
+ fi
+ done
+

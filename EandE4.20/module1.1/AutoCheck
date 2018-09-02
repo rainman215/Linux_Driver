@@ -1,0 +1,60 @@
+#!/bin/bash
+
+loadcheck()
+{
+ drmNum=`lsmod | grep "drm "| awk '{ print $3  }'`
+  echo "the load drm number is $drmNum"
+  if [ $drmNum -lt 3 ]
+     then
+    echo "load fault!!!"
+     exit
+  else 
+    echo "load success!!!"
+    echo "Next,Display will be excuted after 3 second."
+          sleep 3
+  fi
+}
+
+Display()
+{
+  sh TwoDevicedisplay  
+}
+
+Function()
+{
+  sh ./SingleTest.txt CRT
+}
+
+Video()
+{
+ sh video/video_xv
+ sh video/video_vmf.bak
+ sh video/video_vdpau
+}
+
+Main()
+{
+ echo -e "\t\t******Auto Check Menu******"
+ echo "1.ACPI"
+ echo "2.Other Funcion"
+ echo "3.TestMenu"
+ echo "4.Exit"
+ echo "Notice:your input must be number eg:1"
+ echo "Please input your choice:"
+ read choice
+ case $choice in
+1)sh suspend;;
+2)loadcheck
+Display
+Function
+Video;;
+3)sh TestMenu;;
+4)exit;;
+esac
+}
+
+Main
+#loadcheck
+#Display
+#Function
+#Video

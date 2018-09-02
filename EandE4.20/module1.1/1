@@ -1,0 +1,4 @@
+sh text&
+echo "3"
+mplayer-vmf -slave quit /mnt/home/video/mpeg-2/704x480_4M.mp2
+mplayer -noconsolecontrols

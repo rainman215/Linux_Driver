@@ -1,0 +1,49 @@
+#!/bin/bash
+backup()
+{ 
+  if [ ! -f /etc/X11/xorg.AFL ]
+   then
+    cp /etc/X11/xorg.conf /etc/X11/xorg.AFL
+   fi
+}
+
+choose()
+{
+   echo -e "\t\t******Please input your DEvice*******"
+   echo  "Internal:1.CRT+LCD(1280x800) 2.CRT+LCD(1440x900) 3.CRT+DVI 4.CRT+HDMI 5.CRT+DP2"
+   echo  "External:6.CRT+LCD(1280x800) 7.CRT+LCD(1440x900) 8.CRT+DVI 9.CRT+HDMI  10.CRT+TV"
+   echo  "11.return Init"
+   echo  "12.exit"
+   echo  "Please input your choice:"
+   read choice
+   case $choice in
+  1)cp xorg/xorg.InLCD1280x800 /etc/X11/xorg.conf
+   echo "Configuration Success!Please logout or reboot!";;
+  2)cp xorg/xorg.InLCD1440x900 /etc/X11/xorg.conf
+   echo "Configuration Success!Please logout or reboot!";;
+  3)cp xorg/xorg.InDVI /etc/X11/xorg.conf
+    echo "Configuration Success!Please logout or reboot!";;
+  4)cp xorg/xorg.InHDMI /etc/X11/xorg.conf
+     echo "Configuration Success!Please logout or reboot!";;
+  5)cp xorg/xorg.DP2 /etc/X11/xorg.conf
+    echo "Configuration Success!Please logout or reboot!";;
+  6)cp xorg/xorg.ExLCD1280x800 /etc/X11/xorg.conf
+     echo "Configuration Success!Please logout or reboot!";;
+  7)cp xorg/xorg.ExLCD1440x900 /etc/X11/xorg.conf
+    echo "Configuration Success!Please logout or reboot!";;
+  8)cp xorg/xorg.ExDVI /etc/X11/xorg.conf
+     echo "Configuration Success!Please logout or reboot!";;
+  9)cp xorg/xorg.HDMI /etc/X11/xorg.conf
+     echo "Configuration Success!Please logout or reboot!";;
+  10)cp xorg/xorg.TV /etc/X11/xorg.conf
+      echo "Configuration Success!Please logout or reboot!";;
+  11)echo -e "\nReturn init"
+       sh EandE;;
+  12)  exit;;
+  *)echo "your input is wrong,please input again:"
+     choose;;
+   esac
+}
+
+backup
+choose

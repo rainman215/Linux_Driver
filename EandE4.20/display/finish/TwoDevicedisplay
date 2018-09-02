@@ -1,0 +1,89 @@
+#!/bin/bash
+ratecollect()
+{
+ i=-1
+ xrandr | grep "\." | awk '{ print $2 " "$3" " $4" " $5" " $6 }'>ratelist.log
+ xrandr | awk '{ print $1 }'  > modelist.log
+  if [ -f CRTmode.log ]
+     then
+   rm CRTmode.log
+   fi
+  if [ -f LCDmode.log ]
+     then
+   rm LCDmode.log
+   fi
+  if [ -f CRTrate.log ]
+     then
+   rm CRTrate.log
+   fi
+  if [ -f LCDrate.log ]
+     then
+   rm LCDrate.log
+   fi
+    if [ -f DVImode.log ]
+     then
+   rm DVImode.log
+   fi
+  if [ -f HDMImode.log ]
+     then
+   rm HDMImode.log
+   fi
+  if [ -f DVIrate.log ]
+     then
+   rm DVIrate.log
+   fi
+  if [ -f HDMIrate.log ]
+     then
+   rm HDMIrate.log
+   fi
+for mode in `cat modelist.log`
+   do
+case $mode in
+CRT) list=CRTmode.log
+     rate=CRTrate.log
+;;
+LCD) list=LCDmode.log
+     rate=LCDrate.log
+;;
+DVI) list=DVImode.log
+     rate=DVIrate.log
+;;
+HDMI) list=HDMImode.log
+      rate=HDMIrate.log
+;;
+*) #echo "error"
+;;
+esac
+ echo $mode >> $list
+   if [ $i -ge 1 ]
+    then
+   echo `head -n $i ratelist.log | tail -1`  >> $rate
+   fi
+ i=` expr $i + 1 `
+done
+}
+
+rundisplay()
+{
+i=0
+for mode in `cat CRTmode.log | grep x`
+ do
+i=` expr $i + 1 `
+  head -n $i CRTrate.log | tail -1 > ratelist.temp
+ for rate in `cat ratelist.temp`
+  do
+   if [ $rate != + ]
+     then
+  echo "***Current Mode is $mode and Rate is $rate***"
+      xrandr --output CRT --mode $mode --rate $rate 2>ratemistake.log
+       sleep 2
+  echo $rate
+  fi
+ done
+done 
+}          
+
+
+
+ratecollect
+rundisplay           

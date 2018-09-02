@@ -1,0 +1,23 @@
+xrandr | grep " connected" | awk '{ print $1 }' > xdevice
+device=0
+for display in `cat xdevice`
+do
+ device=$device$display
+done
+case $device in
+defalut) echo "defalut"
+;;
+0CRT) echo "CRT" #/home/linuxtest/CRT.txt CRT
+;;
+0CRTLCD) echo "CRTLCD"
+;;
+0CRTDVI) echo "CRTDVI"
+;;
+0CRTHDMI) echo "CRTHDMI"
+;;
+0default) echo "default"
+;;
+*) echo "error"
+;;
+esac
+

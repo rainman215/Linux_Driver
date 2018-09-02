@@ -1,0 +1,165 @@
+#! /bin/sh
+
+# test for DEV monitor, Only can used in RANDR arhcitecture
+# only for $DEV1+$DEV2 now.
+
+DEV1=CRT	# Test Device1
+DEV2=LCD      # Test Device2
+LTETIME=3
+SMLTIME=6
+MIDTIME=9
+LONTIME=18
+
+##############################################################################
+#  Sub Functions
+##############################################################################
+TestInit()
+{
+	export DISPLAY=:0.0
+	xrandr --verbose
+
+	echo "....................................................Start Test $DEV1+$DEV2  ...................................................."
+	sleep $SMLTIME
+
+	echo "Turn to : CRT mode - 1024x768, prepare for testing."
+	sleep $LTETIME
+	xrandr --output $DEV1 --mode 1024x768
+	sleep $LTETIME
+}
+
+TestOver()
+{
+	echo "....................................................Finish Test $DEV1+$DEV2  ...................................................."
+}
+
+OpenDevice()
+{
+	xrandr --output $DEV1 --auto       
+}
+
+CloseDevice()
+{
+	xrandr --output $DEV1 --off
+}
+
+RotateAndReflect()
+{
+	echo "Begin to do rotation! "
+	sleep $SMLTIME
+	xrandr --output $DEV1 --rotate left
+	xrandr --output $DEV2 --rotate left
+       sleep $SMLTIME
+       xrandr --output $DEV1 --rotate left
+	xrandr --output $DEV2  --rotate inverted
+       sleep $SMLTIME
+       xrandr --output $DEV1 --rotate left
+	xrandr --output $DEV2  --rotate right
+       sleep $SMLTIME
+       xrandr --output $DEV1 --rotate left
+	xrandr --output $DEV2  --rotate normal
+       sleep $SMLTIME
+	xrandr --output $DEV1 --rotate right
+       xrandr --output $DEV2  --rotate left
+	sleep $SMLTIME      
+	xrandr --output $DEV1 --rotate right
+       xrandr --output $DEV2  --rotate inverted
+	sleep $SMLTIME      
+       xrandr --output $DEV1 --rotate right
+       xrandr --output $DEV2  --rotate right
+	sleep $SMLTIME      
+	xrandr --output $DEV1 --rotate right
+       xrandr --output $DEV2 --rotate normal
+	sleep $SMLTIME
+       xrandr --output $DEV1 --rotate inverted
+	xrandr --output $DEV2  --rotate left
+       sleep $SMLTIME
+       xrandr --output $DEV1 --rotate inverted
+	xrandr --output $DEV2  --rotate right
+       sleep $SMLTIME
+       xrandr --output $DEV1 --rotate inverted
+	xrandr --output $DEV2  --rotate inverted
+       sleep $SMLTIME
+       xrandr --output $DEV1 --rotate inverted
+	xrandr --output $DEV2  --rotate normal
+       sleep $SMLTIME
+       xrandr --output $DEV1 --rotate normal
+	xrandr --output $DEV2  --rotate left
+       sleep $SMLTIME
+       xrandr --output $DEV1 --rotate normal
+	xrandr --output $DEV2  --rotate right
+       sleep $SMLTIME
+       xrandr --output $DEV1 --rotate normal
+	xrandr --output $DEV2  --rotate inverted
+       sleep $SMLTIME
+       xrandr --output $DEV1 --rotate normal
+	xrandr --output $DEV2 --rotate normal
+       sleep $SMLTIME
+	echo "Begin to do reflection! "
+	sleep $SMLTIME
+	xrandr --output $DEV1 --reflect x
+	sleep $SMLTIME
+	xrandr --output $DEV1 --reflect y
+	sleep $SMLTIME
+	xrandr --output $DEV1 --reflect xy
+	sleep $SMLTIME
+	xrandr --output $DEV1 --reflect normal
+	sleep $SMLTIME
+}
+
+Scale()
+{
+       echo "Begin to do scale! "
+       sleep $SMLTIME
+       xrandr --output $DEV1 --scale 0.8x0.8
+       sleep $SMLTIME
+       xrandr --output $DEV1 --scale 1.2x1.2
+       sleep $SMLTIME
+}
+
+CRTAutoTestFunction()
+{
+	echo "Turn to $DEV1-- $MODE, "
+	sleep $SMLTIME
+	xrandr --output $DEV1 --mode $MODE
+	RotateAndReflect
+	Scale
+}
+
+CRTDynamicTest()
+{
+	
+	echo ">>>>>>>>>>>>>Start CRT Test after $MIDTIME seconds!!! <<<<<<<<<<<<<<"
+	sleep $MIDTIME 
+	OpenDevice
+	sleep $MIDTIME 
+		
+	MODE=640x480
+	CRTAutoTestFunction
+
+	MODE=720x480
+	CRTAutoTestFunction
+
+	MODE=800x600
+	CRTAutoTestFunction
+
+	MODE=1024x768
+	CRTAutoTestFunction
+
+	CloseDevice
+       sleep $MIDTIME
+       OpenDevice
+
+}
+
+
+
+
+	
+
+
+##########################################################################
+##  Main script
+##########################################################################
+TestInit
+CRTDynamicTest
+TestOver

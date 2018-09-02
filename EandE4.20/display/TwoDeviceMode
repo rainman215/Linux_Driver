@@ -1,0 +1,32 @@
+xrandr | awk '{ print $1 }'  > modelist.log
+   if [ -f CRTmode.log ] 
+     then
+   rm CRTmode.log
+   fi
+   if [ -f LCDmode.log ]
+     then
+   rm LCDmode.log
+   fi
+for mode in `cat modelist.log`
+   do 
+case $mode in
+CRT) list=CRTmode.log  #rm $list -fr #echo "CRT" #/home/linuxtest/CRT.txt CRT
+;;
+LCD) list=LCDmode.log  #rm $list -fr  #echo "CRTLCD"
+;;
+DVI) list=DVImode.log  #rm $list -fr #echo "CRTDVI"
+;;
+HDMI) list=HDMImode.log #rm $list -fr #echo "CRTHDMI"
+;;
+*) #echo "error"
+;;
+esac
+ if [ -z $mode ]
+then
+    echo "nomode"
+else
+ #  echo $list
+  echo $mode >> $list
+  # sleep 3
+ fi 
+done

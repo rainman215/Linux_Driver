@@ -1,0 +1,73 @@
+#!/bin/bash
+export DISPLAY=:0.0
+echo "Please input your video dir:"
+read dir
+#dir=/home/checklist_video
+if [ -f format.list ]
+  then
+  rm format.list
+ fi
+if [ -f playlist.vmf ]
+  then
+  rm playlist.vmf
+ fi
+if [ -f video_playlog.vmf ]
+  then
+  rm video_playlog.vmf
+ fi
+ls $dir > filelist.log
+for file in `cat filelist.log`
+   do
+     if [ -z $file ]
+then
+    echo "novideo"
+else
+#    echo $file
+     echo $file >> format.list
+#case $file in
+#defalut) echo "defalut"
+#;;
+#h.264) format=ffh264vdpau
+#;;
+#mpeg4) format=ffodivxvdpau
+#;;
+#mpeg2) format=ffmpeg12vdpau
+#;;
+#VC1) format=ffvc1vdpau
+#;;
+#wmv) format=ffwmv3vdpau
+#;;
+#*) echo "error"
+#;;
+#esac
+    ls $dir/$file > videolist.log
+  for video in `cat videolist.log`
+    do
+      if [ -z $video ]
+    then
+      echo "novideo"
+    else
+      echo "*********play $video after 4 seconds**********"
+            echo "**************$video***********" >> playlist.vmf
+            echo "*************$video************" >>video_playlog.vmf
+                  sleep 4
+      mplayer-vmf -vo vmf $dir/$file/$video 2>templog 1>>playlist.vmf
+       cat templog >> video_playlog.vmf
+           cat templog |grep "No stream"
+        if [ `echo $?` -eq 0 ]
+           then
+          mplayer-vmf -vo vmf $dir/$file/$video -fps 25 2>>video_playlog.vmf 1>>playlist.vmf
+        fi
+   pidof mplayer-vmf
+   valu=`echo $?`
+# while [ $valu -eq 0 ]
+# do
+#   pidof mplayer-vmf>pi
+#   valu=`echo $?`
+#   echo $valu
+#done
+   sleep 3
+   fi
+   done
+ fi
+ done

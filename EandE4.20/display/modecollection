@@ -1,0 +1,11 @@
+xrandr | awk '{ print $1 }' | grep x > modelist.log
+for mode in `cat modelist.log`
+   do 
+     if [ -z $mode ]
+then
+    echo "nomode"
+else
+  echo $mode
+#  sleep 3
+ fi 
+done

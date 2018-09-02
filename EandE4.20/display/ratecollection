@@ -1,0 +1,22 @@
+i=0
+xrandr | grep "\." | awk '{ print $2 " "$3" " $4" " $5" " $6 }'>ratelist.log
+#xrandr | awk '{ print $b }' | grep x > modelist.log
+for mode in `cat modelist.log`
+ do 
+i=` expr $i + 1 `
+  head -n $i ratelist.log | tail -1 > ratelist.temp
+ for rate in `cat ratelist.temp` 
+  do 
+   if [ $rate != + ]
+     then
+  echo "***Current Mode is $mode and Rate is $rate***"
+      xrandr --output CRT --mode $mode --rate $rate 2>ratemistake.log 
+       sleep 2
+ #    value=$?
+ # echo $mode
+  echo $rate
+#  sleep 3
+# i=` expr $i + 1 `
+  fi 
+ done
+done

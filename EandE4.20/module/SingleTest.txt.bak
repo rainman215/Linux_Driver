@@ -1,0 +1,143 @@
+#! /bin/sh
+
+# pre-test for DEV monitor, Only can used in RANDR arhcitecture
+# only for CRT now.
+
+DEV=$1	# Test Device
+
+LTETIME=3
+SMLTIME=6
+MIDTIME=9
+LONTIME=18
+
+##############################################################################
+#  Sub Functions
+##############################################################################
+TestInit()
+{
+	export DISPLAY=:0.0
+#	xrandr --verbose
+
+	echo "..................Start Test $DEV .........................."
+	sleep $SMLTIME
+
+	echo "Turn to : CRT mode - 1024x768, prepare for testing."
+	sleep $LTETIME
+	xrandr --output $DEV --mode 1024x768
+	sleep $LTETIME
+}
+
+TestOver()
+{
+	echo "..................Finish Test $DEV .........................."
+}
+
+OpenDevice()
+{
+	xrandr --output $DEV --auto
+}
+
+CloseDevice()
+{
+        echo "--------------------------close $DEV-----------------------------"
+	xrandr --output $DEV --off
+}
+
+RotateAndReflect()
+{
+	echo "Begin to do rotation! "
+	sleep $SMLTIME
+	xrandr --output $DEV --rotate left
+	sleep $SMLTIME
+	xrandr --output $DEV --rotate right
+	sleep $SMLTIME      
+	xrandr --output $DEV --rotate inverted
+	sleep $SMLTIME
+	xrandr --output $DEV --rotate normal
+	sleep $SMLTIME
+	echo "Begin to do reflection! "
+	sleep $SMLTIME
+	xrandr --output $DEV --reflect x
+	sleep $SMLTIME
+	xrandr --output $DEV --reflect y
+	sleep $SMLTIME
+	xrandr --output $DEV --reflect xy
+	sleep $SMLTIME
+	xrandr --output $DEV --reflect normal
+	sleep $SMLTIME
+}
+
+Scale()
+{
+       echo "Begin to do scale! "
+       sleep $SMLTIME
+       xrandr --output $DEV --scale 0.8x0.8
+       sleep $SMLTIME
+       xrandr --output $DEV --scale 1.2x1.2
+       sleep $SMLTIME
+}
+
+CRTAutoTestFunction()
+{
+	echo "Turn to $DEV-- $MODE, "
+	sleep $SMLTIME
+	xrandr --output $DEV --mode $MODE
+	RotateAndReflect
+	Scale
+}
+
+CRTDynamicTest()
+{
+	
+	echo ">>>>>>>>>>>>>Start CRT Test after $MIDTIME seconds!!! <<<<<<<<<<<<<<"
+	sleep $MIDTIME 
+#	OpenDevice
+#	sleep $MIDTIME 
+		
+#	MODE=640x480
+#	CRTAutoTestFunction
+
+#	MODE=720x480
+#	CRTAutoTestFunction
+
+#	MODE=800x600
+#	CRTAutoTestFunction
+
+#	MODE=1024x768
+#	CRTAutoTestFunction
+
+
+xrandr | awk '{ print $1 }' | grep x > modelist.log
+for mode in `cat modelist.log`
+   do
+     if [ -z $mode ]
+then
+    echo "nomode"
+else
+  echo $mode
+ MODE=$mode
+CRTAutoTestFunction
+  sleep 3
+ fi
+done
+
+
+	CloseDevice
+        sleep $MIDTIME
+        OpenDevice
+
+}
+
+
+
+
+	
+
+
+##########################################################################
+##  Main script
+##########################################################################
+TestInit
+CRTDynamicTest
+TestOver
+exit

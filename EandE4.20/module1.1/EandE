@@ -1,0 +1,25 @@
+#!/bin/bash
+#if [ $# !=1 ];then
+#   echo "Usage:` basename $0 ` [1/2/3]"
+#      exit1
+#fi
+echo -e "\t********Please input your choice*******"
+echo -e "1.Configure Xorg"
+echo -e "2.Step into test menu"
+echo -e "3.Exit"
+echo -e "Notice:your input must be number eg:1"
+echo -e "Please input your choice:"
+read choice
+case $choice in
+1)echo -e "\n" 
+sh ConfigureXorg
+;;
+2)echo -e "\n"
+sh TestMenu
+;;
+3)exit
+;;
+*)echo "your input is wrong,please input again:" 
+sh EandE
+;;
+esac

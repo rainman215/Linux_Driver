@@ -1,0 +1,11 @@
+#xrandr | awk '{ print $1 }'  > modelist.log
+for mode1 in `cat CRTmode.log | grep x`
+   do 
+    echo $mode1 
+for mode2 in `cat LCDmode.log | grep x`
+   do 
+     echo $mode2
+    sleep 2
+   done
+ echo "**************"
+ done

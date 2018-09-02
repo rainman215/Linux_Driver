@@ -1,0 +1,50 @@
+#!/bin/bash
+export DISPLAY=:0.0
+dir=/mnt/home/video
+ls $dir > filelist.log
+for file in `cat filelist.log`
+   do
+     if [ -z $file ]
+then
+    echo "novideo"
+else
+   #  echo $file
+#case $file in
+#defalut) echo "defalut"
+#;;
+#h.264) format=ffh264vdpau
+#;;
+#mpeg4) format=ffodivxvdpau
+#;;
+#mpeg2) format=ffmpeg12vdpau
+#;;
+#VC1) format=ffvc1vdpau
+#;;
+#wmv) format=ffwmv3vdpau
+#;;
+#*) echo "error"
+#;;
+#esac
+    ls $dir/$file > videolist.log
+  for video in `cat videolist.log`
+    do
+      if [ -z $video ]
+    then
+      echo "novideo"
+    else
+      echo $video > /dev/null
+      mplayer-vmf -vo vmf $dir/$file/$video 1> /dev/null 2> /dev/null
+   pidof mplayer-vmf > /dev/null
+   valu=`echo $?`
+# while [ $valu -eq 0 ]
+# do
+#   pidof mplayer-vmf > /dev/null
+#   valu=`echo $?`
+#   echo $valu #> /dev/null
+#done
+   sleep 3
+   fi
+   done
+ fi
+ done
+

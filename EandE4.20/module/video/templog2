@@ -1,0 +1,5 @@
+mplayer: could not connect to socket
+mplayer: No such file or directory
+Failed to open LIRC support. You will not be able to use your remote control.
+[AO OSS] audio_setup: Can't open audio device /dev/dsp: No such file or directory
+DVB card number must be between 1 and 4

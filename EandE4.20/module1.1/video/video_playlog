@@ -1,0 +1,41 @@
+mplayer: could not connect to socket
+mplayer: No such file or directory
+Failed to open LIRC support. You will not be able to use your remote control.
+[AO OSS] audio_setup: Can't open audio device /dev/dsp: No such file or directory
+DVB AUDIO DEVICE: No such file or directory
+New_Face failed. Maybe the font path is wrong.
+Please supply the text font file (~/.mplayer/subfont.ttf).
+subtitle font: load_sub_face failed.
+mplayer: could not connect to socket
+mplayer: No such file or directory
+Failed to open LIRC support. You will not be able to use your remote control.
+Warning! pts=4608000  length=4608108
+Warning! pts=7375872  length=7375467
+[AO OSS] audio_setup: Can't open audio device /dev/dsp: No such file or directory
+DVB AUDIO DEVICE: No such file or directory
+New_Face failed. Maybe the font path is wrong.
+Please supply the text font file (~/.mplayer/subfont.ttf).
+subtitle font: load_sub_face failed.
+No bind found for key 'MOUSE_BTN3'.-MOUSE_BTN3_DBL                         
+No bind found for key 'MOUSE_BTN3_DBL'.                         
+mplayer: could not connect to socket
+mplayer: No such file or directory
+Failed to open LIRC support. You will not be able to use your remote control.
+[AO OSS] audio_setup: Can't open audio device /dev/dsp: No such file or directory
+DVB AUDIO DEVICE: No such file or directory
+New_Face failed. Maybe the font path is wrong.
+Please supply the text font file (~/.mplayer/subfont.ttf).
+subtitle font: load_sub_face failed.
+mplayer: could not connect to socket
+mplayer: No such file or directory
+Failed to open LIRC support. You will not be able to use your remote control.
+[AO OSS] audio_setup: Can't open audio device /dev/dsp: No such file or directory
+DVB AUDIO DEVICE: No such file or directory
+New_Face failed. Maybe the font path is wrong.
+Please supply the text font file (~/.mplayer/subfont.ttf).
+subtitle font: load_sub_face failed.
+Failed to increment property 'switch_program' by 0.000000.
+No bind found for key 'MOUSE_BTN0'.                         
+
+
+MPlayer interrupted by signal 2 in module: sleep_timer

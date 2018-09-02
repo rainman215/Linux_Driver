@@ -1,0 +1,12 @@
+*************H.264_1920x1080_30FPS_20M_CAVLC.mp4************
+mplayer: could not connect to socket
+mplayer: No such file or directory
+Failed to open LIRC support. You will not be able to use your remote control.
+vmi[5095]: (ERR ): Can not decode any type media, please check bios setting
+vmi[5095]: (ERR ): Decoder initial fails
+VMF_HandleCreate() error.[AO OSS] audio_setup: Can't open audio device /dev/dsp: No such file or directory
+DVB AUDIO DEVICE: No such file or directory
+FATAL: Cannot initialize video driver.
+
+FATAL: Could not initialize video filters (-vf) or video output (-vo).
+*************H.264_720x480_20M_30FPS_CAVLC.mp4************

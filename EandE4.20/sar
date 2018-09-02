@@ -1,0 +1,2 @@
+echo >> result.log
+sar 1 60 >> result.log

@@ -1,0 +1,38 @@
+#!/bin/bash
+loadcheck()
+{
+ drmNum=`lsmod | grep "drm "| awk '{ print $3  }'`
+  echo "the load drm number is $drmNum"
+  if [ $drmNum -lt 3 ]
+     then
+    echo "load fault!!!"
+     exit
+  else 
+    echo "load success!!!"
+    echo "Next,Display will be excuted after 3 second."
+          sleep 3
+  fi
+}
+
+Display()
+{
+  sh TwoDevicedisplay
+}
+
+Function()
+{
+  sh ./SingleTest.txt CRT
+}
+
+Video()
+{
+ sh video/video_xv
+ sh video/video_vmf.bak
+ sh video/video_vdpau
+}
+
+
+loadcheck
+Display
+Function
+Video

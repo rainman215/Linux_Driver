@@ -1,0 +1,18 @@
+*************aimee_mann-the_moth-r_m720p.mov************
+mplayer: could not connect to socket
+mplayer: No such file or directory
+Failed to open LIRC support. You will not be able to use your remote control.
+[AO OSS] audio_setup: Can't open audio device /dev/dsp: No such file or directory
+DVB AUDIO DEVICE: No such file or directory
+New_Face failed. Maybe the font path is wrong.
+Please supply the text font file (~/.mplayer/subfont.ttf).
+subtitle font: load_sub_face failed.
+*************ambavideo_20060310_raccomandati_natalia_bush_v593_h264.avi************
+mplayer: could not connect to socket
+mplayer: No such file or directory
+Failed to open LIRC support. You will not be able to use your remote control.
+[AO OSS] audio_setup: Can't open audio device /dev/dsp: No such file or directory
+DVB AUDIO DEVICE: No such file or directory
+New_Face failed. Maybe the font path is wrong.
+Please supply the text font file (~/.mplayer/subfont.ttf).
+subtitle font: load_sub_face failed.

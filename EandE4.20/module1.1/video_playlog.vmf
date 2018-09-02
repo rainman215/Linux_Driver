@@ -1,0 +1,108 @@
+*************H.264_1920x1080_30FPS_20M_CAVLC.mp4************
+mplayer: could not connect to socket
+mplayer: No such file or directory
+Failed to open LIRC support. You will not be able to use your remote control.
+[AO OSS] audio_setup: Can't open audio device /dev/dsp: No such file or directory
+DVB AUDIO DEVICE: No such file or directory
+New_Face failed. Maybe the font path is wrong.
+Please supply the text font file (~/.mplayer/subfont.ttf).
+subtitle font: load_sub_face failed.
+*************H.264_720x480_20M_30FPS_CAVLC.mp4************
+mplayer: could not connect to socket
+mplayer: No such file or directory
+Failed to open LIRC support. You will not be able to use your remote control.
+Warning! pts=4608000  length=4608108
+Warning! pts=7375872  length=7375467
+[AO OSS] audio_setup: Can't open audio device /dev/dsp: No such file or directory
+DVB AUDIO DEVICE: No such file or directory
+New_Face failed. Maybe the font path is wrong.
+Please supply the text font file (~/.mplayer/subfont.ttf).
+subtitle font: load_sub_face failed.
+*************MPEG2_1920x1080_30fps_10M.mpg************
+mplayer: could not connect to socket
+mplayer: No such file or directory
+Failed to open LIRC support. You will not be able to use your remote control.
+[AO OSS] audio_setup: Can't open audio device /dev/dsp: No such file or directory
+DVB AUDIO DEVICE: No such file or directory
+New_Face failed. Maybe the font path is wrong.
+Please supply the text font file (~/.mplayer/subfont.ttf).
+subtitle font: load_sub_face failed.
+*************MPEG2_720x480_30fps_10M.mpg************
+mplayer: could not connect to socket
+mplayer: No such file or directory
+Failed to open LIRC support. You will not be able to use your remote control.
+[AO OSS] audio_setup: Can't open audio device /dev/dsp: No such file or directory
+DVB AUDIO DEVICE: No such file or directory
+New_Face failed. Maybe the font path is wrong.
+Please supply the text font file (~/.mplayer/subfont.ttf).
+subtitle font: load_sub_face failed.
+*************MPEG4_1920x1080_10M_30fps.avi************
+mplayer: could not connect to socket
+mplayer: No such file or directory
+Failed to open LIRC support. You will not be able to use your remote control.
+[AO OSS] audio_setup: Can't open audio device /dev/dsp: No such file or directory
+DVB AUDIO DEVICE: No such file or directory
+New_Face failed. Maybe the font path is wrong.
+Please supply the text font file (~/.mplayer/subfont.ttf).
+subtitle font: load_sub_face failed.
+No bind found for key 'MOUSE_BTN4'.-MOUSE_BTN4_DBL                         
+No bind found for key 'MOUSE_BTN4_DBL'.                         
+No bind found for key 'MOUSE_BTN4_DBL'.                         
+No bind found for key 'MOUSE_BTN0'.                         
+*************MPEG4_720x480_10M_30fps.avi************
+mplayer: could not connect to socket
+mplayer: No such file or directory
+Failed to open LIRC support. You will not be able to use your remote control.
+[AO OSS] audio_setup: Can't open audio device /dev/dsp: No such file or directory
+DVB AUDIO DEVICE: No such file or directory
+New_Face failed. Maybe the font path is wrong.
+Please supply the text font file (~/.mplayer/subfont.ttf).
+subtitle font: load_sub_face failed.
+*************VC1_KYOTO_1920x1080_10Mbps_30fps.wmv************
+mplayer: could not connect to socket
+mplayer: No such file or directory
+Failed to open LIRC support. You will not be able to use your remote control.
+ERROR: Could not open required DirectShow codec wma9dmod.dll.
+ADecoder preinit failed :(
+ERROR: Could not open required DirectShow codec wmadmod.dll.
+ADecoder preinit failed :(
+Cannot find codec for audio format 0x162.
+New_Face failed. Maybe the font path is wrong.
+Please supply the text font file (~/.mplayer/subfont.ttf).
+subtitle font: load_sub_face failed.
+*************VC1_KYOTO_720x480_10Mbps_30fps.wmv************
+mplayer: could not connect to socket
+mplayer: No such file or directory
+Failed to open LIRC support. You will not be able to use your remote control.
+ERROR: Could not open required DirectShow codec wma9dmod.dll.
+ADecoder preinit failed :(
+ERROR: Could not open required DirectShow codec wmadmod.dll.
+ADecoder preinit failed :(
+Cannot find codec for audio format 0x162.
+New_Face failed. Maybe the font path is wrong.
+Please supply the text font file (~/.mplayer/subfont.ttf).
+subtitle font: load_sub_face failed.
+*************KYOTO_1920x1080_30FPS_10Mbps.wmv************
+mplayer: could not connect to socket
+mplayer: No such file or directory
+Failed to open LIRC support. You will not be able to use your remote control.
+ERROR: Could not open required DirectShow codec wma9dmod.dll.
+ADecoder preinit failed :(
+ERROR: Could not open required DirectShow codec wmadmod.dll.
+ADecoder preinit failed :(
+Cannot find codec for audio format 0x162.
+New_Face failed. Maybe the font path is wrong.
+Please supply the text font file (~/.mplayer/subfont.ttf).
+subtitle font: load_sub_face failed.
+*************KYOTO_720x480_30FPS_10Mbps.wmv************
+mplayer: could not connect to socket
+mplayer: No such file or directory
+Failed to open LIRC support. You will not be able to use your remote control.
+ERROR: Could not open required DirectShow codec wma9dmod.dll.
+ADecoder preinit failed :(
+ERROR: Could not open required DirectShow codec wmadmod.dll.
+ADecoder preinit failed :(
+Cannot find codec for audio format 0x162.
+New_Face failed. Maybe the font path is wrong.
+Please supply the text font file (~/.mplayer/subfont.ttf).
+subtitle font: load_sub_face failed.
